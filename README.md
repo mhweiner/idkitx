@@ -21,10 +21,11 @@ generateId({ length: 8 });                  // e.g., '4MfbTz1q' (shorter random 
 generateId({ input: 'user:42' });           // deterministic — same input = same ID
 generateId({ sequential: true });           // e.g., '0v4mG6CZKuSk31H8', sortable by timestamp
 generateId({ sequential: true, length: 20 }); // longer sequential ID (must be ≥ 16)
+generateId({ alphabet: 'crockford' }); // e.g., '2Z5G1K9DMQ', Base32 Crockford encoding, fewer similar chars, but less entropy per char
 ```
 
 ✅ Customizable entropy via length  
-✅ Compact, URL-friendly, human-readable (Base62)  
+✅ Compact, URL-friendly, human-readable (Base62 or Crockford's Base32)  
 ✅ Deterministic mode for de-duping/idempotency (hash of input)  
 ✅ Sequential mode (timestamp + randomness) for insert performance  
 ✅ Random mode (short but globally unique)  
@@ -48,8 +49,6 @@ While **idkitx** is great for compact, flexible ID generation, it’s not ideal 
 - ❌ You need monotonicity across distributed systems — use ulid with a monotonic factory
 - ❌ You require binary-compatible formats (e.g. 128-bit UUIDs stored in binary columns) — use uuid or native database GUID types
 - ❌ You need audited cryptographic guarantees — use crypto.randomUUID() or a dedicated crypto library
-- ❌ You want fully unambiguous character sets — idkit uses Base62, which includes similar-looking characters (O vs 0, l vs 1, etc). For strict human-readability, consider Base32 with reduced alphabets (e.g. Crockford’s Base32). Use `ulid` or `nanoid` for this.
-- ❌ You require uppercase-only IDs — idkit includes lowercase letters in its Base62 encoding
 
 ## 🔍 How it compares
 
@@ -66,22 +65,6 @@ While **idkitx** is great for compact, flexible ID generation, it’s not ideal 
 | Audited for crypto tokens  | ❌                   | ✅ (via WebCrypto)  | ❌                | ❌               |
 
 > ⚠️ ULID is sortable within a process, but only guaranteed monotonic with a factory. UUIDv4 is cryptographically secure, but 36 characters long and not sortable.
-
-## 🙋 When should I use UUID or ULID instead?
-
-Use **UUID** if:
-- You need standardization or 128-bit formats
-- You want compatibility with external systems or protocols
-
-Use **ULID** if:
-- You need millisecond-sortable IDs across shards or services
-- You’re okay with 26-character Base32 strings
-
-Use **idkitx** if:
-- You want compact, readable, sortable IDs
-- You want deterministic or timestamp-prefixed formats
-- You care about performance and minimalism
-- You don’t need strict adherence to UUID/ULID specs
 
 ## Installation
 
@@ -121,6 +104,8 @@ Each character in a Base62-encoded ID contributes approximately **5.95 bits of e
 | 12     | ~71 bits         | Public slugs, deterministic keys | ~230 million IDs             |
 | 16     | ~95 bits         | Global scale, ULID/UUID alt      | ~1.3 billion IDs             |
 | 20     | ~119 bits        | Practically collision-proof      | ~75 billion IDs              |
+
+If you're using **crockford** encoding, the entropy per character is slightly lower (5 bits), so adjust your length accordingly.
 
 #### 💡 Recommendation
 
