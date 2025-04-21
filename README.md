@@ -76,7 +76,7 @@ npm i idkitx
 
 ### `generateId(options?: GenerateIdOptions): string`
 
-Generates a Base62-encoded ID string. Defaults to random.
+Generates a Base62-encoded or Crockford Base32-encoded ID string.
 
 **Options:**
 
