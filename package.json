@@ -1,0 +1,58 @@
+{
+  "name": "idkit",
+  "private": false,
+  "version": "0.0.0-autorel",
+  "description": "Generate compact, URL-safe Base62 IDs optimized for database performance. Supports random, deterministic, and sequential modes for idempotency, deduplication, and index efficiency.",
+  "license": "MIT",
+  "author": "Marc H. Weiner <mhweiner234@gmail.com> (https://linkedin.com/in/mhweiner)",
+  "main": "./dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "!dist/**/*.map",
+    "!dist/**/*.spec.*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mhweiner/idkit.git"
+  },
+  "scripts": {
+    "prepare": "npm run build",
+    "test": "c8 hoare 'src/**/*.spec.ts' && c8 report -r text -r html",
+    "lint": "eslint ./ --ext .js,.ts",
+    "build": "tsc"
+  },
+  "homepage": "https://github.com/mhweiner/idkit",
+  "keywords": [
+    "id",
+    "id-generator",
+    "unique-id",
+    "short-id",
+    "sequential-id",
+    "deterministic-id",
+    "base62",
+    "ulid-alternative",
+    "uuid-alternative",
+    "compact-id",
+    "url-safe-id",
+    "postgres",
+    "database-index",
+    "database-performance",
+    "primary-key",
+    "deduplication",
+    "idempotent",
+    "lexicographical",
+    "timestamp-id"
+  ],
+  "devDependencies": {
+    "@types/node": "17.0.45",
+    "@typescript-eslint/eslint-plugin": "^5.7.0",
+    "@typescript-eslint/parser": "^5.7.0",
+    "c8": "^7.10.0",
+    "cjs-mock": "1.4.14",
+    "eslint": "^8.4.1",
+    "hoare": "3.4.4",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.4"
+  }
+}
