@@ -38,7 +38,6 @@ generateId({ sequential: true, length: 20 }); // longer sequential ID (must be �
 - **Better insert/index performance** than ULID or UUID in some databases
 - **More flexibility** than libraries that only do random or sequential
 - **Postgres-friendly primary keys**
-- **Consistent Base62 output** — safe for URLs, filenames, slugs, etc.
 
 It uses Node’s `crypto.randomBytes()` under the hood, just like `uuid`, `nanoid`, and `ulid`. While this provides strong randomness for uniqueness and distribution, **`idkitx` is not a cryptography library** and should not be used to generate secrets or session tokens.
 
@@ -61,7 +60,6 @@ While **idkitx** is great for compact, flexible ID generation, it’s not ideal 
 | Fully random option        | ✅                   | ✅                  | ❌ (prefix only)  | ✅               |
 | Deterministic (hash) mode  | ✅                   | ❌                  | ❌                | ❌               |
 | Sequential sortable mode   | ✅ (best-effort)     | ❌                  | ✅                | ❌               |
-| Base62 output              | ✅                   | ❌ (hex)            | ❌ (base32)       | ✅               |
 | Zero dependencies          | ✅                   | ✅ (native only)    | ✅                | ✅               |
 | Configurable length        | ✅                   | ❌                  | ❌                | ✅               |
 | Binary compatibility       | ❌                   | ✅ (128-bit)        | ❌                | ❌               |
