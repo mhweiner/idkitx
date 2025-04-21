@@ -87,12 +87,6 @@ Generates a Base62-encoded ID string. Defaults to random.
 | `sequential`  | `boolean?`  | `false` | If `true`, prepends an 8-char timestamp prefix for sortable IDs.           |
 | `alphabet`    | `"base62"` or `"crockford"`   | `"base62"` | Custom alphabet for encoding. Defaults to Base62 (0-9, A-Z, a-z).          |
 
-### `encodeBase62(bufferOrBigint, length): string`
-
-Internal utility for encoding `Buffer` or `bigint` values into Base62, padded to a fixed length.
-
-Not exported publicly unless needed.
-
 ### 📏 Entropy and Choosing a Length
 
 Each character in a Base62-encoded ID contributes approximately **5.95 bits of entropy**. Use this to estimate how long your IDs should be based on how many you’ll generate.
