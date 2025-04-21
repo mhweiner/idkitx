@@ -109,6 +109,28 @@ Internal utility for encoding `Buffer` or `bigint` values into Base62, padded to
 
 Not exported publicly unless needed.
 
+### 📏 Entropy and Choosing a Length
+
+Each character in a Base62-encoded ID contributes approximately **5.95 bits of entropy**. Use this to estimate how long your IDs should be based on how many you’ll generate.
+
+| Length | Bits of Entropy | Example Use Case                 | 1% Collision Likely At       |
+|--------|------------------|----------------------------------|------------------------------|
+| 6      | ~36 bits         | Tiny systems, temp tokens        | ~600,000 IDs                 |
+| 8      | ~48 bits         | Short-lived sessions, test data | ~3 million IDs               |
+| 10     | ~60 bits         | Default for random IDs           | ~37 million IDs              |
+| 12     | ~71 bits         | Public slugs, deterministic keys | ~230 million IDs             |
+| 16     | ~95 bits         | Global scale, ULID/UUID alt      | ~1.3 billion IDs             |
+| 20     | ~119 bits        | Practically collision-proof      | ~75 billion IDs              |
+
+#### 💡 Recommendation
+
+- Use **10–12 characters** for most app-level IDs
+- Use **16+ characters** for large-scale, high-throughput systems
+- Deterministic IDs should be long enough to minimize hash collisions
+- **Sequential IDs** must be **≥16** to make room for the timestamp prefix
+
+> `idkitx` uses Node’s `crypto.randomBytes()` for high-entropy randomness. But even good randomness can collide — make sure your **length matches your scale**.
+
 ## Contributing
 
 - ⭐ Star this repo if you like it!
