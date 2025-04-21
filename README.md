@@ -85,7 +85,7 @@ Generates a Base62-encoded ID string. Defaults to random.
 | `length`      | `number`    | 10 or 16 | Total length of the ID. Defaults to `10` (random/deterministic) or `16` (sequential). |
 | `input`       | `string?`   | `undefined` | If provided, generates a deterministic ID based on hash of the input.      |
 | `sequential`  | `boolean?`  | `false` | If `true`, prepends an 8-char timestamp prefix for sortable IDs.           |
-| `alphabet`    | `base62'` or `'crockford'`   | `Base62` | Custom alphabet for encoding. Defaults to Base62 (0-9, A-Z, a-z).          |
+| `alphabet`    | `"base62"` or `"crockford"`   | `"base62"` | Custom alphabet for encoding. Defaults to Base62 (0-9, A-Z, a-z).          |
 
 ### `encodeBase62(bufferOrBigint, length): string`
 
