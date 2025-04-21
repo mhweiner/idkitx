@@ -1,5 +1,5 @@
 import {test} from 'hoare';
-import {generateId, encodeBase62} from './generateId';
+import {generateId, encodeCustomAlphabet, BASE62} from './generateId';
 
 const base62Regex = /^[A-Za-z0-9]+$/;
 
@@ -31,6 +31,17 @@ test('generates a random id of custom length (16)', (assert) => {
 
     assert.equal(id.length, 16);
     assert.isTrue(base62Regex.test(id), 'ID contains invalid characters');
+
+});
+
+test('generates ID using Crockford base32 alphabet', (assert) => {
+
+    const crockfordRegex = /^[0123456789ABCDEFGHJKMNPQRSTVWXYZ]+$/;
+
+    const id = generateId({length: 12, alphabet: 'crockford'});
+
+    assert.equal(id.length, 12);
+    assert.isTrue(crockfordRegex.test(id), `ID contains invalid characters: ${id}`);
 
 });
 
@@ -117,7 +128,7 @@ test('throws if sequential id is too short', (assert) => {
 test('encodeBase62 handles Buffer input', (assert) => {
 
     const buffer = Buffer.from([0x12, 0x34, 0xab, 0xcd]);
-    const encoded = encodeBase62(buffer, 6);
+    const encoded = encodeCustomAlphabet(buffer, 6, BASE62);
 
     assert.equal(typeof encoded, 'string');
     assert.equal(encoded.length, 6);
@@ -127,7 +138,7 @@ test('encodeBase62 handles Buffer input', (assert) => {
 test('encodeBase62 handles bigint input', (assert) => {
 
     const num = 12345678901234567890n;
-    const encoded = encodeBase62(num, 12);
+    const encoded = encodeCustomAlphabet(num, 12, BASE62);
 
     assert.equal(typeof encoded, 'string');
     assert.equal(encoded.length, 12);
@@ -136,7 +147,7 @@ test('encodeBase62 handles bigint input', (assert) => {
 
 test('encodeBase62 handles small bigint and pads correctly', (assert) => {
 
-    const encoded = encodeBase62(1n, 6);
+    const encoded = encodeCustomAlphabet(1n, 6, BASE62);
 
     assert.equal(encoded.length, 6);
 
