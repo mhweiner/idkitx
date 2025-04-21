@@ -1,5 +1,5 @@
 import {test} from 'hoare';
-import {generateId, encodeCustomAlphabet, BASE62} from './generateId';
+import {generateId, encodeCharset, BASE62} from './generateId';
 
 const base62Regex = /^[A-Za-z0-9]+$/;
 
@@ -128,7 +128,7 @@ test('throws if sequential id is too short', (assert) => {
 test('encodeBase62 handles Buffer input', (assert) => {
 
     const buffer = Buffer.from([0x12, 0x34, 0xab, 0xcd]);
-    const encoded = encodeCustomAlphabet(buffer, 6, BASE62);
+    const encoded = encodeCharset(buffer, 6, BASE62);
 
     assert.equal(typeof encoded, 'string');
     assert.equal(encoded.length, 6);
@@ -138,7 +138,7 @@ test('encodeBase62 handles Buffer input', (assert) => {
 test('encodeBase62 handles bigint input', (assert) => {
 
     const num = 12345678901234567890n;
-    const encoded = encodeCustomAlphabet(num, 12, BASE62);
+    const encoded = encodeCharset(num, 12, BASE62);
 
     assert.equal(typeof encoded, 'string');
     assert.equal(encoded.length, 12);
@@ -147,7 +147,7 @@ test('encodeBase62 handles bigint input', (assert) => {
 
 test('encodeBase62 handles small bigint and pads correctly', (assert) => {
 
-    const encoded = encodeCustomAlphabet(1n, 6, BASE62);
+    const encoded = encodeCharset(1n, 6, BASE62);
 
     assert.equal(encoded.length, 6);
 

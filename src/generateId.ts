@@ -2,18 +2,19 @@ import {createHash, randomBytes} from 'crypto';
 
 export const BASE62 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 export const CROCKFORD = '0123456789ABCDEFGHJKMNPQRSTVWXYZ'; // No I, L, O, U
+export type Alphabet = 'base62' | 'crockford';
 
 export interface GenerateIdOptions {
     length?: number
     input?: string // deterministic mode
     sequential?: boolean // timestamp-prefixed
-    alphabet?: 'base62' | 'crockford'
+    alphabet?: Alphabet
 }
 
-export function encodeCustomAlphabet(
+export function encodeCharset(
     input: Buffer | bigint,
     length: number,
-    alphabet: string
+    charset: string
 ): string {
 
     let num = typeof input === 'bigint'
@@ -21,13 +22,13 @@ export function encodeCustomAlphabet(
         : BigInt(`0x${input.toString('hex')}`);
 
     const chars: string[] = [];
-    const base = BigInt(alphabet.length);
+    const base = BigInt(charset.length);
 
     while (chars.length < length) {
 
         const index = Number(num % base);
 
-        chars.unshift(alphabet[index]);
+        chars.unshift(charset[index]);
         num /= base;
 
     }
@@ -58,7 +59,7 @@ export function generateId(options: GenerateIdOptions = {}): string {
 
         const hash = createHash('sha256').update(input).digest();
 
-        return encodeCustomAlphabet(hash, length, charset);
+        return encodeCharset(hash, length, charset);
 
     }
 
@@ -69,7 +70,7 @@ export function generateId(options: GenerateIdOptions = {}): string {
         const timestamp = Date.now().toString(36).padStart(8, '0');
         const randLength = length - 8;
         const randomBytesNeeded = Math.ceil((randLength * Math.log2(charset.length)) / 8);
-        const randPart = encodeCustomAlphabet(randomBytes(randomBytesNeeded), randLength, charset);
+        const randPart = encodeCharset(randomBytes(randomBytesNeeded), randLength, charset);
 
         return timestamp + randPart;
 
@@ -77,6 +78,6 @@ export function generateId(options: GenerateIdOptions = {}): string {
 
     const raw = randomBytes(Math.ceil((length * Math.log2(charset.length)) / 8));
 
-    return encodeCustomAlphabet(raw, length, charset);
+    return encodeCharset(raw, length, charset);
 
 }
