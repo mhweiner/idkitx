@@ -1,8 +1,8 @@
 {
-  "name": "idkit",
+  "name": "idkitx",
   "private": false,
   "version": "0.0.0-autorel",
-  "description": "Generate compact, URL-safe Base62 IDs optimized for database performance. Supports random, deterministic, and sequential modes for idempotency, deduplication, and index efficiency.",
+  "description": "Generates compact, URL-safe IDs optimized for humans and database performance. Supports random, deterministic, and sequential modes for idempotency, deduplication, and index efficiency.",
   "license": "MIT",
   "author": "Marc H. Weiner <mhweiner234@gmail.com> (https://linkedin.com/in/mhweiner)",
   "main": "./dist/index.js",
@@ -14,7 +14,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mhweiner/idkit.git"
+    "url": "git+https://github.com/mhweiner/idkitx.git"
   },
   "scripts": {
     "prepare": "npm run build",
@@ -22,7 +22,7 @@
     "lint": "eslint ./ --ext .js,.ts",
     "build": "tsc"
   },
-  "homepage": "https://github.com/mhweiner/idkit",
+  "homepage": "https://github.com/mhweiner/idkitx",
   "keywords": [
     "id",
     "id-generator",

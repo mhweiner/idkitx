@@ -1,22 +1,22 @@
 <picture>
-    <source srcset="docs/idkit-white.svg" media="(prefers-color-scheme: dark)">
-    <source srcset="docs/idkit-black.svg" media="(prefers-color-scheme: light)">
-    <img src="docs/idkit-black.svg" alt="Logo" style="margin: 0 0 10px" size="250">
-</picture>
+    <source srcset="docs/idkitx-white.svg" media="(prefers-color-scheme: dark)">
+    <source srcset="docs/idkitx-black.svg" media="(prefers-color-scheme: light)">
+    <img src="docs/idkitx-black.svg" alt="Logo" style="margin: 0 0 10px" size="250">
+</picture> 
 
-[![build status](https://github.com/mhweiner/idkit/actions/workflows/release.yml/badge.svg)](https://github.com/mhweiner/idkit/actions)
-[![codecov](https://codecov.io/gh/mhweiner/idkit/branch/main/graph/badge.svg)](https://codecov.io/gh/mhweiner/idkit)
-[![npm version](https://img.shields.io/npm/v/idkit.svg)](https://www.npmjs.com/package/idkit)
+[![build status](https://github.com/mhweiner/idkitx/actions/workflows/release.yml/badge.svg)](https://github.com/mhweiner/idkitx/actions)
+[![codecov](https://codecov.io/gh/mhweiner/idkitx/branch/main/graph/badge.svg)](https://codecov.io/gh/mhweiner/idkitx)
+[![npm version](https://img.shields.io/npm/v/idkitx.svg)](https://www.npmjs.com/package/idkitx)
 [![SemVer](https://img.shields.io/badge/SemVer-2.0.0-blue)]()
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 [![AutoRel](https://img.shields.io/badge/v2-AutoRel?label=AutoRel&labelColor=0ab5fc&color=grey&link=https%3A%2F%2Fgithub.com%2Fmhweiner%2Fautorel)](https://github.com/mhweiner/autorel)
 
-**idkit** is a flexible, URL-safe ID generator designed for performance, compactness, and clarity.
+**idkitx** is a flexible, URL-safe ID generator designed for performance, compactness, and clarity.
 
 It gives you short, secure IDs that can be **random**, **deterministic**, or **sequential** — in a consistent, Base62 format. It was designed to solve specific problems at [aeroview.io](https://aeroview.io) and is now open-sourced for the community. Inspired by the best parts of `nanoid`, `ulid`, `ksuid`, and `hashids`, it provides a simple API for generating IDs that are both human-readable and database-friendly.
 
 ```ts
-import { generateId } from 'idkit';
+import { generateId } from 'idkitx';
 
 generateId();                               // e.g., 'A9bzK2XcPv' (random)
 generateId({ length: 8 });                  // e.g., '4MfbTz1q' (shorter random ID)
@@ -32,9 +32,9 @@ generateId({ sequential: true, length: 20 }); // longer sequential ID (must be �
 ✅ Random mode (short but globally unique)  
 ✅ Fully typed, fast, 100% test coverage  
 
-## 🚀 Why idkit?
+## 🚀 Why idkitx?
 
-**idkit** is for developers who want:
+**idkitx** is for developers who want:
 
 - **Shorter IDs** than UUIDs (as few as 8–12 characters)
 - **Better insert/index performance** than ULID or UUID in some databases
@@ -42,20 +42,21 @@ generateId({ sequential: true, length: 20 }); // longer sequential ID (must be �
 - **Postgres-friendly primary keys**
 - **Consistent Base62 output** — safe for URLs, filenames, slugs, etc.
 
-It uses Node’s `crypto.randomBytes()` under the hood, just like `uuid`, `nanoid`, and `ulid`. While this provides strong randomness for uniqueness and distribution, **`idkit` is not a cryptography library** and should not be used to generate secrets or session tokens.
+It uses Node’s `crypto.randomBytes()` under the hood, just like `uuid`, `nanoid`, and `ulid`. While this provides strong randomness for uniqueness and distribution, **`idkitx` is not a cryptography library** and should not be used to generate secrets or session tokens.
 
-## 🤔 When *not* to use idkit
+## 🤔 When *not* to use idkitx
 
-While **idkit** is great for compact, flexible ID generation, it’s not a full replacement for every situation:
-
-- ❌ You need **universally recognized ID standards** (e.g. external APIs, logs) — use `uuid`
-- ❌ You need **monotonicity across distributed systems** — use `ulid` with a monotonic factory
-- ❌ You require **binary formats** (e.g. 16-byte UUIDs in database columns) — use `uuid` or native GUID types
-- ❌ You need **formally audited cryptographic guarantees** — use `crypto.randomUUID()` or a dedicated crypto lib
+While **idkitx** is great for compact, flexible ID generation, it’s not ideal for every situation:
+- ❌ You need universally recognized ID formats (e.g. for APIs, OAuth, logs) — use uuid
+- ❌ You need monotonicity across distributed systems — use ulid with a monotonic factory
+- ❌ You require binary-compatible formats (e.g. 128-bit UUIDs stored in binary columns) — use uuid or native database GUID types
+- ❌ You need audited cryptographic guarantees — use crypto.randomUUID() or a dedicated crypto library
+- ❌ You want fully unambiguous character sets — idkit uses Base62, which includes similar-looking characters (O vs 0, l vs 1, etc). For strict human-readability, consider Base32 with reduced alphabets (e.g. Crockford’s Base32). Use `ulid` or `nanoid` for this.
+- ❌ You require uppercase-only IDs — idkit includes lowercase letters in its Base62 encoding
 
 ## 🔍 How it compares
 
-| Feature                     | `idkit`              | `uuid/v4`           | `ulid`            | `nanoid`         |
+| Feature                     | `idkitx`              | `uuid/v4`           | `ulid`            | `nanoid`         |
 |----------------------------|----------------------|---------------------|-------------------|------------------|
 | URL-safe                   | ✅                   | ✅ (v4 only)        | ✅                | ✅               |
 | Compact (8–16 chars)       | ✅                   | ❌ (36 chars)       | ❌ (26 chars)     | ✅               |
@@ -80,7 +81,7 @@ Use **ULID** if:
 - You need millisecond-sortable IDs across shards or services
 - You’re okay with 26-character Base32 strings
 
-Use **idkit** if:
+Use **idkitx** if:
 - You want compact, readable, sortable IDs
 - You want deterministic or timestamp-prefixed formats
 - You care about performance and minimalism
@@ -89,7 +90,7 @@ Use **idkit** if:
 ## Installation
 
 ```bash
-npm i idkit
+npm i idkitx
 ```
 
 ## API Reference
@@ -115,7 +116,7 @@ Not exported publicly unless needed.
 ## Contributing
 
 - ⭐ Star this repo if you like it!
-- 🐛 Open an [issue](https://github.com/mhweiner/idkit/issues) for bugs or suggestions.
+- 🐛 Open an [issue](https://github.com/mhweiner/idkitx/issues) for bugs or suggestions.
 - 🤝 Submit a PR to `main` — all tests must pass.
 
 ## Related Projects
